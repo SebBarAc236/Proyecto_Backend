@@ -241,20 +241,53 @@ const Usuario = sequelize.define("Usuario",{
     freezeTableName : true
 })
 
-
-
-Equipo.belongsTo(Grupo, {
-    foreignKey : "grupo_id"
+Reporte.belongsTo(Usuario, {
+    foreignKey : "Usuario_ID"
 })
-Grupo.hasMany(Equipo, {
-    foreignKey : "id"
+Usuario.hasMany(Reporte, {
+    foreignKey : "Usuario_ID"
 })
 
-Equipo.belongsTo(Confederacion, {
-    foreignKey : "confederacion_id"
+Resena.belongsTo(Usuario, {
+    foreignKey : "Usuario_ID"
 })
-Confederacion.hasMany(Equipo, {
-    foreignKey : "id"
+Usuario.hasMany(Resena, {
+    foreignKey : "Usuario_ID"
+})
+
+Orden.belongsTo(Usuario, {
+    foreignKey : "Usuario_ID"
+})
+Usuario.hasMany(Orden, {
+    foreignKey : "Usuario_ID"
+})
+
+Orden_producto.belongsTo(Orden, {
+    foreignKey : "Orden_ID"
+})
+Orden.hasMany(Orden_producto, {
+    foreignKey : "Orden_ID"
+})
+
+Orden_producto.belongsTo(Producto, {
+    foreignKey : "Producto_ID"
+})
+Producto.hasMany(Orden_producto, {
+    foreignKey : "Producto_ID"
+})
+
+PC_Armado_Prod.belongsTo(Producto, {
+    foreignKey : "Producto_ID"
+})
+Producto.hasMany(PC_Armado_Prod, {
+    foreignKey : "Producto_ID"
+})
+
+PC_Armado_Prod.belongsTo(PC_Armado, {
+    foreignKey : "PC_Armado_ID"
+})
+PC_Armado.hasMany(PC_Armado_Prod, {
+    foreignKey : "PC_Armado_ID"
 })
 
 
