@@ -13,8 +13,18 @@ app.use(cors())
 app.use(express.static("assets"))
 
 app.get("/Orden", async (req, resp) => {
-    const listaOrden = await Orden.findAll()
-    resp.send(listaOrden)
+    const orden = req.query.Usuario_ID
+    if(orden === undefined || orden === null){
+        const listaOrden = await Orden.findAll()
+        resp.send(listaOrden)
+    }else{
+        const listaOrden = await Orden.findAll({
+            where : {
+                orden : Usuario_ID
+            }
+        })
+        resp.send(listaOrden)
+    }
 })
 app.get("/Orden_producto", async (req, resp) => {
     const listaOrdenProd = await Orden_producto.findAll()
@@ -29,8 +39,18 @@ app.get("/PC_Armado_Prod", async (req, resp) => {
     resp.send(listaPCArmadoProd)
 })
 app.get("/Producto", async (req, resp) => {
-    const listaProducto = await Producto.findAll()
+    const tipo = req.query.Categoria
+    if(tipo == undefined){
+        const listaProducto = await Producto.findAll()
+        resp.send(listaProducto)
+    }else{
+        const listaProducto = await Producto.findAll({
+            where : {
+                Categoria : tipo
+            }
+        })
     resp.send(listaProducto)
+    }
 })
 app.get("/Reporte", async (req, resp) => {
     const listaReporte = await Reporte.findAll()
@@ -41,8 +61,18 @@ app.get("/Resena", async (req, resp) => {
     resp.send(listaResena)
 })
 app.get("/Usuario", async (req, resp) => {
-    const listaUsuario = await Usuario.findAll()
-    resp.send(listaUsuario)
+    const usuario = req.query.Correo
+    if(usuario == undefined){
+        const listaUsuarios = await Usuario.findAll()
+        resp.send(listaUsuarios)
+    }else{
+        const listaUsuarios = await Usuario.findAll({
+            where : {
+                Correo : usuario
+            }
+        })
+    resp.send(listaUsuarios)
+    }
 })
 
 
