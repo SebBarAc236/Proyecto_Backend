@@ -14,7 +14,7 @@ app.use(express.static("assets"))
 
 app.get("/Orden", async (req, resp) => {
     const orden = req.query.Usuario_ID
-    if(orden === undefined || orden === null){
+    if(orden === undefined){
         const listaOrden = await Orden.findAll()
         resp.send(listaOrden)
     }else{
