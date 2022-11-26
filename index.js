@@ -75,6 +75,7 @@ app.get("/Usuario", async (req, resp) => {
     }
 })
 
+
 app.post("/Usuario", async (req,resp) => {
     const dataRequest = req.body
     const Usuario_ID = dataRequest.Usuario_ID
@@ -127,6 +128,56 @@ app.post("/Usuario", async (req,resp) => {
     })
 })
 
+app.post("/Usuario", async (req,resp) => {
+    const dataRequest = req.body
+    const Usuario_ID = dataRequest.Usuario_ID
+    const Nombre = dataRequest.Nombre
+    const Apellido = dataRequest.Apellido
+    const Correo = dataRequest.Correo
+    const Contrasena = dataRequest.Contrasena
+    if(Usuario_ID == null || Usuario_ID == undefined) resp.send({
+        error : "Error. Debe haber un Usuario_ID"
+    })
+    if(Nombre == null || Nombre == undefined) resp.send({
+        error : "Error. Debe haber un Nombre"
+    })
+    if(Apellido == null || Apellido == undefined) resp.send({
+        error : "Error. Debe haber un Apellido"
+    })
+    if(Correo == null || Correo == undefined) resp.send({
+        error : "Error. Debe haber un Correo"
+    })
+    if(Contrasena == null || Contrasena == undefined) resp.send({
+        error : "Error. Debe haber un Contrasena"
+    })
+
+    const usuarioRegister = await Usuario.findAll({where : {
+        Correo : Correo
+    }})
+    if(usuarioRegister.length > 0){
+        resp.send({
+            error : "ERROR. Ya existe un usuario con ese correo."
+        })
+        return
+    }
+    try {
+        await Usuario.create({
+            Usuario_ID : Usuario_ID,
+            Nombre : Nombre,
+            Apellido : Apellido,
+            Correo : Correo,
+            Contrasena : Contrasena
+        })
+    } catch (error) {
+        resp.send({
+            error : `Error. ${error}`
+        })
+        return
+    }
+    resp.send({
+        error : " "
+    })
+})
 
 app.listen(PUERTO, () => {
     console.log(`Servidor web iniciado en el puerto ${PUERTO}`)
