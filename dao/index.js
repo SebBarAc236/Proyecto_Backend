@@ -1,10 +1,16 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
 const CADENA_CONEXION = 
-    "postgresql://sebastianb:sebastianb@localhost:4321/proyectopw"
+    process.env.DATABASE_URL || "postgresql://sebastianb:sebastianb@localhost:4321/proyectopw"
 
-const sequelize = new Sequelize(CADENA_CONEXION)
-
+    const sequelize = new Sequelize(CADENA_CONEXION, {
+        dialectOptions : {
+            ssl : {
+                require : true,
+                rejectUnauthorized : false
+            }
+        }
+    })
 const Orden = sequelize.define("Orden",{
     Orden_ID : {
         primaryKey : true,

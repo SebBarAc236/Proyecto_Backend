@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 const cors = require("cors")
 const { Orden, Orden_producto, PC_Armado, PC_Armado_Prod,
     Producto, Reporte, Resena, Usuario } = require("./dao")
-const PUERTO = 4444
+const PUERTO = process.env.PORT || 4444
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
