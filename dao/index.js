@@ -19,7 +19,7 @@ const Orden = sequelize.define("Orden",{
         allowNull : false
     },
     Usuario_ID : {
-        type : DataTypes.UUID,
+        type : DataTypes.INTEGER,
         allowNull : false
     },
     Monto : {
@@ -139,7 +139,7 @@ const Reporte = sequelize.define("Reporte",{
         allowNull : false
     },
     Usuario_ID : {
-        type : DataTypes.UUID,
+        type : DataTypes.INTEGER,
         allowNull : false
     },
     Correo : {
@@ -175,7 +175,7 @@ const Resena = sequelize.define("Resena",{
         allowNull : false
     },
     Usuario_ID : {
-        type : DataTypes.UUID,
+        type : DataTypes.INTEGER,
         allowNull : false
     },
     Puntaje : {
@@ -206,7 +206,7 @@ const Resena = sequelize.define("Resena",{
 const Usuario = sequelize.define("Usuario",{
     Usuario_ID : {
         primaryKey : true,
-        type : DataTypes.UUID,
+        type : DataTypes.INTEGER,
         defaultValue : Sequelize.UUIDV4,
         allowNull : false
     },
