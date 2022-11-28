@@ -121,10 +121,6 @@ const Producto = sequelize.define("Producto",{
     Categoria : {
         type : DataTypes.STRING(30),
         allowNull : true
-    },
-    Marca : {
-        type : DataTypes.STRING(50),
-        allowNull : true
     }
 },{
     timestamps : false,
