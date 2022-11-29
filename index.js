@@ -96,21 +96,14 @@ app.post("/Usuario", async (req,resp) => {
         })
         return
     }
-
-    try {
-        await Usuario.create({
-            Usuario_ID : Usuario_ID,
-            Nombre : Nombre,
-            Apellido : Apellido,
-            Correo : Correo,
-            Contrasena : Contrasena
-        })
-    } catch (error) {
-        resp.send({
-            error : `Error. ${error}`
-        })
-        return
-    }
+    await Usuario.create({
+        Usuario_ID : Usuario_ID,
+        Nombre : Nombre,
+        Apellido : Apellido,
+        Correo : Correo,
+        Contrasena : Contrasena
+    })
+    
     resp.send({
         error : ""
     })
