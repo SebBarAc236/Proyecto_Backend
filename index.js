@@ -138,7 +138,7 @@ app.post("/login", async (req,resp) => {
             Contrasena : contrasena
         }
     })
-    if(usuario == null){
+    if(usuario === null){
         resp.send({
             error : "Datos incorrectos"
         })
