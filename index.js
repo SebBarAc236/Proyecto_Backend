@@ -95,19 +95,8 @@ app.post("/Usuario", async (req,resp) => {
             error : "ERROR. Ya existe un usuario con ese correo."
         })
         return
-    }else{
-        await Usuario.create({
-            Usuario_ID : Usuario_ID,
-            Nombre : Nombre,
-            Apellido : Apellido,
-            Correo : Correo,
-            Contrasena : Contrasena
-        })
-        resp.send({
-            error : " "
-        })
     }
-/*
+
     try {
         await Usuario.create({
             Usuario_ID : Usuario_ID,
@@ -124,7 +113,7 @@ app.post("/Usuario", async (req,resp) => {
     }
     resp.send({
         error : " "
-    })*/
+    })
 })
 
 app.post("/login", async (req,resp) => {
