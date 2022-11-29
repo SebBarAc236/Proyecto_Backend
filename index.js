@@ -145,7 +145,7 @@ app.post("/login", async (req,resp) => {
     }else{
         resp.send({
             error : "",
-            token : TOKEN
+            token : correo
         })
     }
 })
