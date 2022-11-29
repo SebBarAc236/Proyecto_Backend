@@ -128,6 +128,26 @@ app.post("/Usuario", async (req,resp) => {
     })
 })
 
+app.post("/login", async (req,resp) => {
+    const correo = req.body.Correo
+    const contrasena = req.body.Contrasena
+    const usuario = await Usuario.findOne({
+        where : {
+            Correo : correo,
+            Contrasena : contrasena
+        }
+    })
+    if(usuario == null){
+        resp.send({
+            error : "Error en el Login"
+        })
+    }else{
+        resp.send({
+            error : ""
+        })
+    }
+})
+
 
 
 app.listen(PUERTO, () => {
