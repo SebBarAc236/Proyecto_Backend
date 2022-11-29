@@ -6,6 +6,8 @@ const { Orden, Orden_producto, PC_Armado, PC_Armado_Prod,
 const PUERTO = process.env.PORT || 4444
 const app = express()
 const TOKEN = "HSDFOSHFHSDFSDHFJSHK"
+const ERRORLOGIN = "Datos incorrectos"
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended : true
@@ -140,7 +142,8 @@ app.post("/login", async (req,resp) => {
     })
     if(usuario === null){
         resp.send({
-            error : "Datos incorrectos"
+            error : "Datos incorrectos",
+            errortxt : ERRORLOGIN
         })
     }else{
         resp.send({
