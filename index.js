@@ -5,6 +5,7 @@ const { Orden, Orden_producto, PC_Armado, PC_Armado_Prod,
     Producto, Reporte, Resena, Usuario } = require("./dao")
 const PUERTO = process.env.PORT || 4444
 const app = express()
+const TOKEN = "HSDFOSHFHSDFSDHFJSHK"
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended : true
@@ -143,7 +144,8 @@ app.post("/login", async (req,resp) => {
         })
     }else{
         resp.send({
-            error : ""
+            error : "",
+            token : TOKEN
         })
     }
 })
