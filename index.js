@@ -140,7 +140,7 @@ app.post("/login", async (req,resp) => {
     })
     if(usuario == null){
         resp.send({
-            error : "Error en el Login"
+            error : "Datos incorrectos"
         })
     }else{
         resp.send({
