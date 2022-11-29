@@ -112,7 +112,7 @@ app.post("/Usuario", async (req,resp) => {
         return
     }
     resp.send({
-        error : " "
+        error : ""
     })
 })
 
