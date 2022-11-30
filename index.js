@@ -146,7 +146,14 @@ app.post("/login", async (req,resp) => {
     }
 })
 
-
+app.get("/productoPCarmada", async (req,resp) => {
+    const productoId = req.body.Producto_ID
+    const producto = await Producto.findOne({
+        where : {
+            Producto_ID : productoId
+        }
+    })
+})
 
 app.listen(PUERTO, () => {
     console.log(`Servidor web iniciado en el puerto ${PUERTO}`)
