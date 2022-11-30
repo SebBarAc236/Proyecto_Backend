@@ -66,6 +66,7 @@ app.get("/Resena", async (req, resp) => {
             Tipo_resena: 'Usuario'
         }
     })
+    resp.send(listaResena)
     
 })
 app.get("/Resena2", async (req, resp) => {
