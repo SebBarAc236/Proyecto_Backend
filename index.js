@@ -60,8 +60,12 @@ app.get("/Reporte", async (req, resp) => {
     resp.send(listaReporte)
 })
 app.get("/Resena", async (req, resp) => {
-    const listaResena = await Resena.findAll()
-    resp.send(listaResena)
+    const listaResena = await Resena.findAll({
+        include: Usuario,
+        where: {
+            Tipo_resena: 'Usuario'
+        }
+    })
 })
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
