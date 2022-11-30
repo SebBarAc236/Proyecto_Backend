@@ -66,7 +66,18 @@ app.get("/Resena", async (req, resp) => {
             Tipo_resena: 'Usuario'
         }
     })
+    
 })
+app.get("/Resena2", async (req, resp) => {
+    const listaResena = await Resena.findAll({
+        include: Usuario,
+        where: {
+            Tipo_resena: 'Influencer'
+        }
+    })
+    resp.send(listaResena)
+})
+
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
     if(usuario == undefined){
