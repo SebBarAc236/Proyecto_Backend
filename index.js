@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
     extended : true
 }))
 app.use(cors())
-app.use(express.static("imagenes"))
+app.use(express.static("assets"))
 
 app.get("/Orden", async (req, resp) => {
     const orden = req.query.Usuario_ID
