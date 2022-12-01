@@ -85,6 +85,23 @@ app.get("/Resena2", async (req, resp) => {
     resp.send(listaResena)
 })
 
+app.get("/carritoAvanzado", async (req,resp) => {
+    const ord_prod = req.query.Producto_ID
+    if(ord_prod == undefined){
+        const listaPRODUCTOS = await Orden_producto.findAll()
+        resp.send(listaPRODUCTOS)
+    }else{
+        const listaPRODUCTOS = await Orden_producto.findAll({
+            include: Producto,
+            where : {
+                Producto_ID : ord_prod
+            }
+        })
+        resp.send(listaPRODUCTOS)
+    }
+   
+})
+
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
     if(usuario == undefined){
