@@ -39,7 +39,6 @@ app.get("/Orden_producto", async (req, resp) => {
     }else{
         
         const listadoOrdenProd = await Orden_producto.findAll({
-            include: Producto, 
             where : {Orden_ID : orden}})
         resp.send(listadoOrdenProd)
     }})
