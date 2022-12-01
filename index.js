@@ -121,6 +121,7 @@ app.post("/Orden", async (req, resp) =>{
     resp.send({
         error: ""
     })
+    resp.end();
 })
 
 app.get("/carritoAvanzado", async (req,resp) => {
