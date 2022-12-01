@@ -299,8 +299,8 @@ app.post("/Orden", async (req, resp) =>
 })
 
 app.post("/Producto", async(req,resp) =>{
-    const Nombre = req.body.NombreProd
-    const Precio = req.body.PrecioProd
+    const Nombre = req.body.Nombre
+    const Precio = req.body.Precio
     const URL  = req.body.URL
     await Producto.create({
         Producto_ID : crypto.randomUUID(),
