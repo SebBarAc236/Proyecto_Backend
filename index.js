@@ -17,6 +17,22 @@ app.use(bodyParser.urlencoded({
 app.use(cors())
 app.use(express.static("assets"))
 
+
+
+app.get("/Usuario2", async (req, resp) => {
+    const usuario = req.query.Usuario_ID
+    if(usuario == undefined){
+        const listaUsuarios = await Usuario.findAll()
+        resp.send(listaUsuarios)
+    }else{
+        const listaUsuarios = await Usuario.findAll({
+            where : {
+                Usuario_ID : usuario
+            }
+        })
+    resp.send(listaUsuarios)
+    }
+})
 app.get("/Orden", async (req, resp) => {
     const orden = req.query.Usuario_ID
     if(orden === undefined){
@@ -98,54 +114,11 @@ app.get("/Resena2", async (req, resp) => {
     })
     resp.send(listaResena)
 })
-app.post("/Orden", async (req, resp) =>{
-    const dataRequest = req.body
-    const Direc = dataRequest.Direccion
-    const Precio = dataRequest.Monto
-    const OrdenID = dataRequest.Orden_ID
-    const UsuarioID = dataRequest.Usuario_ID
 
-    //Validaciones
-    if(Direccion == null || Direccion == undefined) resp.send({
-        error: "ERROR. Llene todos los datos"
-    })
-    if(UsuarioID == null || UsuarioID == undefined) resp.send({
-        error: "ERROR. Debe iniciar sesion"
-    })
 
-    try{
-        await Orden.create({
-            Direccion: Direc,
-            Monto :  Precio,
-            Orden_ID : OrdenID,
-            Usuario_ID: UsuarioID,
-            Fecha : new Date().toJSON
 
-        })
-    } catch (error) {
-        resp.send({
-            error: `ERROR. ${error}`
-        })
-    }
-    resp.send({
-        error: ""
-    })
-    resp.end();
-})
-app.get("/Usuario2", async (req, resp) => {
-    const usuario = req.query.Usuario_ID
-    if(usuario == undefined){
-        const listaUsuarios = await Usuario.findAll()
-        resp.send(listaUsuarios)
-    }else{
-        const listaUsuarios = await Usuario.findAll({
-            where : {
-                Usuario_ID: usuario 
-            }
-        })
-    resp.send(listaUsuarios)
-    }
-})
+
+
 
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
@@ -281,19 +254,8 @@ app.post("/Avanzadadestroy", async (req,resp) => {
 
 app.post("/Orden", async (req, resp) => 
 {
-    const dataRequest = req.body;
-    const usuarioID = dataRequest.Usuario_ID;
+    const usuarioID = req.body.Usuario_ID;
 
-    const owo = await Orden.findAll({
-        Usuario_ID : usuarioID,
-    })
-
-    if (owo.length > 0) {
-        resp.send(owo)
-        return 
-    }
-
-    try {
         await Orden.create({
             Orden_ID: crypto.randomUUID(),
             Usuario_ID: usuarioID,
@@ -301,15 +263,43 @@ app.post("/Orden", async (req, resp) =>
             Direccion: "",
             Fecha: Date.now(),
         })
-    } catch (error) {
-        console.log(error);
-        resp.send({
-            error : `ERROR. ${error}`
-        })
-        return
-    }
+   
 })
 
+app.post("/Orden_Producto", async(req,resp) => {
+    const Orden_producto_ID = crypto.randomUUID();
+    const Orden_ID = req.body.Orden_ID;
+    const Producto_ID = req.body.Producto_ID;
+    await Orden_producto.create({
+        Orden_producto_ID : Orden_producto_ID,
+        Orden_ID : Orden_ID,
+        Producto_ID : Producto_ID
+    })
+})
+
+app.post("/Producto", async(req,resp) =>{
+    const Nombre = req.body.Nombre
+    const Precio = req.body.Precio
+    const URL  = req.body.URL
+    const productoID = crypto.randomUUID()
+    await Producto.create({
+        Producto_ID : productoID,
+        Nombre : Nombre,
+        Precio : Precio,
+        URL : URL
+    })
+    resp.send({
+        idprodcreado : productoID
+    })
+})
+app.delete("/Avanzada", async (req,resp) => {
+    const avanzada_id = req.body.Usuario_ID
+    await PC_Avanzada.destroy({
+        where : {
+            Usuario_ID : avanzada_id
+        }
+    })
+})
 app.post("/Carrito", async (req, resp) => {
     const dataRequest = req.body
     const producto_id = dataRequest.Producto_ID
