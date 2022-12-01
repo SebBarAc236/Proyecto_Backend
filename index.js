@@ -314,10 +314,10 @@ app.post("/Producto", async(req,resp) =>{
     })
 })
 app.delete("/Avanzada", async (req,resp) => {
-    const avanzada_id = req.body.Avanzada_ID
+    const avanzada_id = req.body.Usuario_ID
     await PC_Avanzada.destroy({
         where : {
-            Avanzada_ID : avanzada_id
+            Usuario_ID : avanzada_id
         }
     })
 })
