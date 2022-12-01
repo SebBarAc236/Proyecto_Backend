@@ -1,3 +1,4 @@
+const crypto = require("crypto")
 const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
@@ -198,6 +199,69 @@ app.post("/login", async (req,resp) => {
     }
 })
 
+app.post("/Orden", async (req, resp) => 
+{
+    const dataRequest = req.body;
+    const usuarioID = dataRequest.Usuario_ID;
+
+    const owo = await Orden.findAll({
+        Usuario_ID : usuarioID,
+    })
+
+    if (owo.length > 0) {
+        resp.send(owo)
+        return 
+    }
+
+    try {
+        await Orden.create({
+            Orden_ID: crypto.randomUUID(),
+            Usuario_ID: usuarioID,
+            Monto: 0,
+            Direccion: "",
+            Fecha: Date.now(),
+        })
+    } catch (error) {
+        console.log(error);
+        resp.send({
+            error : `ERROR. ${error}`
+        })
+        return
+    }
+})
+
+app.post("/Carrito", async (req, resp) => {
+    const dataRequest = req.body
+    const producto_id = dataRequest.Producto_ID
+    const ordenID = dataRequest.Orden_ID
+    console.log("Producto ID: ");
+    console.log(producto_id);
+    // Validaciones
+    if (producto_id == null || producto_id == undefined) resp.send({
+        error : "ERROR. Debe enviar un producto ID"
+    })
+
+    try {
+        await Orden_producto.create({
+            Orden_producto_ID: crypto.randomUUID(),
+            Orden_ID: ordenID,
+            Producto_ID : producto_id,
+        })
+    } catch (error) {
+        console.log(error);
+        resp.send({
+            error : `ERROR. ${error}`
+        })
+        return
+    }
+
+    resp.send({
+        error : ""
+    })
+
+})
+
+
 app.get("/productoPCarmada", async (req,resp) => {
     const productoId = req.body.Producto_ID
     const producto = await Producto.findOne({
@@ -206,6 +270,7 @@ app.get("/productoPCarmada", async (req,resp) => {
         }
     })
 })
+
 
 app.listen(PUERTO, () => {
     console.log(`Servidor web iniciado en el puerto ${PUERTO}`)
