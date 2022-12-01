@@ -43,7 +43,7 @@ app.get("/Orden_producto", async (req, resp) => {
             where : {Orden_ID : orden}})
         resp.send(listadoOrdenProd)
     }})
-app.get("/Producto", async (req, resp) => {
+app.get("/Productoid", async (req, resp) => {
         const producto = req.query.Producto_ID
         if(producto === undefined){
             const listadoProd = await Producto.findAll()
