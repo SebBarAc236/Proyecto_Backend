@@ -99,9 +99,6 @@ app.get("/Resena2", async (req, resp) => {
     resp.send(listaResena)
 })
 
-
-
-
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
     if(usuario == undefined){
@@ -236,8 +233,25 @@ app.post("/Avanzadadestroy", async (req,resp) => {
 
 app.post("/Orden", async (req, resp) => 
 {
-    const usuarioID = req.body.Usuario_ID;
+    const dataRequest = req.body;
+    const usuarioID = dataRequest.Usuario_ID;
+    console.log(usuarioID);
 
+    const owo = await Orden.findAll({
+        
+        where: {Usuario_ID : usuarioID},
+    })
+    console.log("Este es el usuario mandando -------")
+    console.log(usuarioID)
+    console.log("ordenes");
+    console.log(owo);
+    
+    if (owo.length > 0) {
+        resp.send(owo)
+        return 
+    }
+
+    try {
         await Orden.create({
             Orden_ID: crypto.randomUUID(),
             Usuario_ID: usuarioID,
@@ -245,9 +259,14 @@ app.post("/Orden", async (req, resp) =>
             Direccion: "",
             Fecha: Date.now(),
         })
-   
+    } catch (error) {
+        console.log(error);
+        resp.send({
+            error : `ERROR. ${error}`
+        })
+        return
+    }
 })
-
 app.post("/Orden_Producto", async(req,resp) => {
     const Orden_producto_ID = crypto.randomUUID();
     const Orden_ID = req.body.Orden_ID;
@@ -282,6 +301,7 @@ app.delete("/Avanzada", async (req,resp) => {
         }
     })
 })
+
 app.post("/Carrito", async (req, resp) => {
     const dataRequest = req.body
     const producto_id = dataRequest.Producto_ID
