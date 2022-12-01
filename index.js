@@ -74,6 +74,7 @@ app.get("/Resena", async (req, resp) => {
             Tipo_resena: 'Usuario'
         }
     })
+    resp.send(listaResena)
     
 })
 app.get("/Resena2", async (req, resp) => {
@@ -84,6 +85,39 @@ app.get("/Resena2", async (req, resp) => {
         }
     })
     resp.send(listaResena)
+})
+app.post("/Orden", async (req, resp) =>{
+    const dataRequest = req.body
+    const Direc = dataRequest.Direccion
+    const Precio = dataRequest.Monto
+    const OrdenID = dataRequest.Orden_ID
+    const UsuarioID = dataRequest.Usuario_ID
+
+    //Validaciones
+    if(Direccion == null || Direccion == undefined) resp.send({
+        error: "ERROR. Llene todos los datos"
+    })
+    if(UsuarioID == null || UsuarioID == undefined) resp.send({
+        error: "ERROR. Debe iniciar sesion"
+    })
+
+    try{
+        await Orden.create({
+            Direccion: Direc,
+            Monto :  Precio,
+            Orden_ID : OrdenID,
+            Usuario_ID: UsuarioID,
+            Fecha : new Date().toJSON
+
+        })
+    } catch (error) {
+        resp.send({
+            error: `ERROR. ${error}`
+        })
+    }
+    resp.send({
+        error: ""
+    })
 })
 
 app.get("/carritoAvanzado", async (req,resp) => {
