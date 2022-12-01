@@ -128,7 +128,7 @@ app.post("/Usuario", async (req,resp) => {
 app.post("/login", async (req,resp) => {
     const correo = req.body.Correo
     const contrasena = req.body.Contrasena
-    const usuarioID = req.body.Usuario_ID
+    const Usuario_ID = req.body.Usuario_ID
     const usuario = await Usuario.findOne({
         where : {
             Correo : correo,
@@ -144,7 +144,7 @@ app.post("/login", async (req,resp) => {
         resp.send({
             error : "",
             token : correo,
-            usuarioID : usuarioID
+            usuarioID : Usuario_ID
         })
     }
 })
