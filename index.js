@@ -269,14 +269,8 @@ app.post("/Avanzadadestroy", async (req,resp) => {
 
 app.post("/Orden", async (req, resp) => 
 {
-    const dataRequest = req.body;
-    const usuarioID = dataRequest.Usuario_ID;
+    const usuarioID = req.body.Usuario_ID;
 
-    const owo = await Orden.findAll({
-        Usuario_ID : usuarioID,
-    })
-
-    try {
         await Orden.create({
             Orden_ID: crypto.randomUUID(),
             Usuario_ID: usuarioID,
@@ -284,14 +278,7 @@ app.post("/Orden", async (req, resp) =>
             Direccion: "",
             Fecha: Date.now(),
         })
-    } catch (error) {
-        console.log(error);
-        resp.send({
-            error : `ERROR. ${error}`
-        })
-        return
-    }
-    resp.end()
+   
 })
 
 app.post("/Producto", async(req,resp) =>{
