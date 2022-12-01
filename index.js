@@ -132,7 +132,20 @@ app.post("/Orden", async (req, resp) =>{
     })
     resp.end();
 })
-
+app.get("/Usuario2", async (req, resp) => {
+    const usuario = req.query.Usuario_ID
+    if(usuario == undefined){
+        const listaUsuarios = await Usuario.findAll()
+        resp.send(listaUsuarios)
+    }else{
+        const listaUsuarios = await Usuario.findAll({
+            where : {
+                Usuario_ID: usuario 
+            }
+        })
+    resp.send(listaUsuarios)
+    }
+})
 
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
