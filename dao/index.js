@@ -332,10 +332,10 @@ PC_Armado.hasMany(PC_Armado_Prod, {
 })
 
 PC_Avanzada.belongsTo(Usuario, {
-    foreignKey : "Usuario_ID"
+    foreignKey : "usuario_id"
 })
 Usuario.hasMany(PC_Avanzada,{
-    foreignKey : "usuario_id"
+    foreignKey : "Usuario_ID"
 })
 
 
