@@ -143,11 +143,11 @@ const PC_Avanzada = sequelize.define("pc_armado_avanzado",{
     },
     nombreprod : {
         type : DataTypes.STRING(25),
-        allowNull : true
+        allowNull : false
     },
     precioprod : {
         type : DataTypes.INTEGER,
-        allowNull : true
+        allowNull : false
     },
     url : {
         type : DataTypes.STRING(150),
