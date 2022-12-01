@@ -6,6 +6,7 @@ const { Orden, Orden_producto, PC_Armado, PC_Armado_Prod,
 const PUERTO = process.env.PORT || 4444
 const app = express()
 const TOKEN = "HSDFOSHFHSDFSDHFJSHK"
+const usuarioID = ""
 const ERRORLOGIN = "Datos incorrectos"
 
 app.use(bodyParser.json())
@@ -23,7 +24,7 @@ app.get("/Orden", async (req, resp) => {
     }else{
         const listaOrden = await Orden.findAll({
             where : {
-                orden : Usuario_ID
+                Usuario_ID : orden
             }
         })
         resp.send(listaOrden)
@@ -141,7 +142,8 @@ app.post("/login", async (req,resp) => {
     }else{
         resp.send({
             error : "",
-            token : correo
+            token : correo,
+            usuarioID : usuarioID
         })
     }
 })
