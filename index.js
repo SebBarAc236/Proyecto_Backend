@@ -31,8 +31,14 @@ app.get("/Orden", async (req, resp) => {
     }
 })
 app.get("/Orden_producto", async (req, resp) => {
-    const listaOrdenProd = await Orden_producto.findAll()
-    resp.send(listaOrdenProd)
+    const orden = req.query.Orden_ID
+    if(orden === undefined){
+        const listadoOrdenProd = await Orden_producto.findAll()
+        resp.send(listadoOrdenProd)
+    }else{
+        const listadoOrdenProd = await Orden_producto.findAll({where : {Orden_ID : orden}})
+        resp.send(listadoOrdenProd)
+    }
 })
 app.get("/PC_Armado", async (req, resp) => {
     const listaPCArmado = await PC_Armado.findAll()
