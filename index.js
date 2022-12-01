@@ -128,6 +128,7 @@ app.post("/Usuario", async (req,resp) => {
 app.post("/login", async (req,resp) => {
     const correo = req.body.Correo
     const contrasena = req.body.Contrasena
+    const usuarioID = req.body.Usuario_ID
     const usuario = await Usuario.findOne({
         where : {
             Correo : correo,
