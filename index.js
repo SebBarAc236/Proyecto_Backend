@@ -37,7 +37,10 @@ app.get("/Orden_producto", async (req, resp) => {
         const listadoOrdenProd = await Orden_producto.findAll()
         resp.send(listadoOrdenProd)
     }else{
-        const listadoOrdenProd = await Orden_producto.findAll({where : {Orden_ID : orden}})
+        
+        const listadoOrdenProd = await Orden_producto.findAll({
+            include: Producto, 
+            where : {Orden_ID : orden}})
         resp.send(listadoOrdenProd)
     }})
 app.get("/Producto", async (req, resp) => {
@@ -127,6 +130,7 @@ app.post("/Orden", async (req, resp) =>{
     resp.send({
         error: ""
     })
+    resp.end();
 })
 
 app.get("/carritoAvanzado", async (req,resp) => {
