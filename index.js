@@ -296,6 +296,7 @@ app.post("/Orden", async (req, resp) =>
         })
         return
     }
+    resp.end()
 })
 
 app.post("/Producto", async(req,resp) =>{
