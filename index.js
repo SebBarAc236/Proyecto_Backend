@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
     extended : true
 }))
 app.use(cors())
-app.use(express.static("assets"))
+app.use(express.static("imagenes"))
 
 app.get("/Orden", async (req, resp) => {
     const orden = req.query.Usuario_ID
@@ -39,7 +39,16 @@ app.get("/Orden_producto", async (req, resp) => {
     }else{
         const listadoOrdenProd = await Orden_producto.findAll({where : {Orden_ID : orden}})
         resp.send(listadoOrdenProd)
-    }
+    }})
+app.get("/Producto", async (req, resp) => {
+        const producto = req.query.Producto_ID
+        if(producto === undefined){
+            const listadoProd = await Producto.findAll()
+            resp.send(listadoProd)
+        }else{
+            const listadoProd = await Producto.findAll({where : {Producto_ID : producto}})
+            resp.send(listadoProd)
+        }
 })
 app.get("/PC_Armado", async (req, resp) => {
     const listaPCArmado = await PC_Armado.findAll()
