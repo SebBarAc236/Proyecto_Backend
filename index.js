@@ -119,14 +119,14 @@ app.get("/Usuario", async (req, resp) => {
 })
 
 app.get("/Avanzada", async (req,resp) => {
-    const usuario_id = req.query.usuario_id
+    const usuario_id = req.query.Usuario_ID
     if(usuario_id == undefined){
         const listadoAvanzado = await PC_Avanzada.findAll()
         resp.send(listadoAvanzado)
     }else{
         const listadoAvanzado = await PC_Avanzada.findAll({
             where : {
-                usuario_id : usuario_id
+                Usuario_ID : usuario_id
             }
         })
         resp.send(listadoAvanzado)

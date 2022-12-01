@@ -135,25 +135,25 @@ const Producto = sequelize.define("Producto",{
     freezeTableName : true
 })
 
-const PC_Avanzada = sequelize.define("pc_armado_avanzado",{
-    id_avanzada : {
+const PC_Avanzada = sequelize.define("PC_Avanzada",{
+    Avanzada_ID : {
         primaryKey : true,
         type : DataTypes.INTEGER,
         allowNull : false
     },
-    nombreprod : {
+    NombreProd : {
         type : DataTypes.STRING(25),
         allowNull : false
     },
-    precioprod : {
+    PrecioProd : {
         type : DataTypes.INTEGER,
         allowNull : false
     },
-    url : {
+    URL : {
         type : DataTypes.STRING(150),
         allowNull : true
     },
-    usuario_id : {
+    Usuario_ID : {
         type : DataTypes.INTEGER,
         allowNull : false
     }
@@ -332,7 +332,7 @@ PC_Armado.hasMany(PC_Armado_Prod, {
 })
 
 PC_Avanzada.belongsTo(Usuario, {
-    foreignKey : "usuario_id"
+    foreignKey : "Usuario_ID"
 })
 Usuario.hasMany(PC_Avanzada,{
     foreignKey : "Usuario_ID"
