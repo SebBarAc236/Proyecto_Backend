@@ -198,6 +198,35 @@ app.post("/login", async (req,resp) => {
         })
     }
 })
+app.post("/Avanzada", async (req,resp) => {
+    const avanzada_id = req.body.Avanzada_ID
+    const nombre = req.body.NombreProd
+    const precio = req.body.PrecioProd
+    const url = req.body.URL
+    const usuario_id = req.body.Usuario_ID
+    const pedido = await PC_Avanzada.findAll({
+        where : {
+            Avanzada_ID : avanzada_id
+        }
+    })
+    if(pedido.length > 0){
+        resp.send({
+            error : "ERROR. Ya se añadio ese prod."
+        })
+        return
+    }
+    await PC_Avanzada.create({
+        Avanzada_ID : avanzada_id,
+        NombreProd : nombre,
+        PrecioProd : precio,
+        URL : url,
+        Usuario_ID : usuario_id
+    })
+    
+    resp.send({
+        error : ""
+    })
+})
 
 app.post("/Orden", async (req, resp) => 
 {
