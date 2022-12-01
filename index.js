@@ -125,6 +125,17 @@ app.post("/Usuario", async (req,resp) => {
     })
 })
 
+app.put("/Usuario", async (req, resp) => {
+    const body = req.body;
+    const userId = body.Usuario_ID
+    delete body['Usuario_ID']
+    const updatedRows = await Usuario.update(body, { where: { Usuario_ID: userId } })
+    console.log(updatedRows);
+    resp.send({
+        error: ''
+    })
+})
+
 app.post("/login", async (req,resp) => {
     const correo = req.body.Correo
     const contrasena = req.body.Contrasena
