@@ -276,11 +276,6 @@ app.post("/Orden", async (req, resp) =>
         Usuario_ID : usuarioID,
     })
 
-    if (owo.length > 0) {
-        resp.send(owo)
-        return 
-    }
-
     try {
         await Orden.create({
             Orden_ID: crypto.randomUUID(),
