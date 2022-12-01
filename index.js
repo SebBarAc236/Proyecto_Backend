@@ -262,6 +262,13 @@ app.post("/Avanzada", async (req,resp) => {
     })
 })
 
+app.post("/Avanzada", async (req,resp) => {
+    const avanzada_id = req.body.Avanzada_ID
+    await PC_Avanzada.destroy({
+        Avanzada_ID : avanzada_id
+    })
+})
+
 app.post("/Orden", async (req, resp) => 
 {
     const dataRequest = req.body;
