@@ -134,6 +134,7 @@ app.post("/Orden", async (req, resp) =>{
 })
 
 
+
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
     if(usuario == undefined){
@@ -295,6 +296,18 @@ app.post("/Orden", async (req, resp) =>
         })
         return
     }
+})
+
+app.post("/Producto", async(req,resp) =>{
+    const Nombre = req.body.NombreProd
+    const Precio = req.body.PrecioProd
+    const URL  = req.body.URL
+    await Producto.create({
+        Producto_ID : crypto.randomUUID(),
+        Nombre : Nombre,
+        Precio : Precio,
+        URL : URL
+    })
 })
 
 app.post("/Carrito", async (req, resp) => {
