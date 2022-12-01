@@ -1,11 +1,13 @@
+const crypto = require("crypto")
 const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const { Orden, Orden_producto, PC_Armado, PC_Armado_Prod,
-    Producto, Reporte, Resena, Usuario } = require("./dao")
+    Producto, Reporte, Resena, Usuario, PC_Avanzada } = require("./dao")
 const PUERTO = process.env.PORT || 4444
 const app = express()
 const TOKEN = "HSDFOSHFHSDFSDHFJSHK"
+const usuarioID = ""
 const ERRORLOGIN = "Datos incorrectos"
 
 app.use(bodyParser.json())
@@ -23,15 +25,21 @@ app.get("/Orden", async (req, resp) => {
     }else{
         const listaOrden = await Orden.findAll({
             where : {
-                orden : Usuario_ID
+                Usuario_ID : orden
             }
         })
         resp.send(listaOrden)
     }
 })
 app.get("/Orden_producto", async (req, resp) => {
-    const listaOrdenProd = await Orden_producto.findAll()
-    resp.send(listaOrdenProd)
+    const orden = req.query.Orden_ID
+    if(orden === undefined){
+        const listadoOrdenProd = await Orden_producto.findAll()
+        resp.send(listadoOrdenProd)
+    }else{
+        const listadoOrdenProd = await Orden_producto.findAll({where : {Orden_ID : orden}})
+        resp.send(listadoOrdenProd)
+    }
 })
 app.get("/PC_Armado", async (req, resp) => {
     const listaPCArmado = await PC_Armado.findAll()
@@ -112,6 +120,23 @@ app.post("/Orden", async (req, resp) =>{
     })
 })
 
+app.get("/carritoAvanzado", async (req,resp) => {
+    const ord_prod = req.query.Producto_ID
+    if(ord_prod == undefined){
+        const listaPRODUCTOS = await Orden_producto.findAll()
+        resp.send(listaPRODUCTOS)
+    }else{
+        const listaPRODUCTOS = await Orden_producto.findAll({
+            include: Producto,
+            where : {
+                Producto_ID : ord_prod
+            }
+        })
+        resp.send(listaPRODUCTOS)
+    }
+   
+})
+
 app.get("/Usuario", async (req, resp) => {
     const usuario = req.query.Correo
     if(usuario == undefined){
@@ -127,6 +152,20 @@ app.get("/Usuario", async (req, resp) => {
     }
 })
 
+app.get("/Avanzada", async (req,resp) => {
+    const usuario_id = req.query.Usuario_ID
+    if(usuario_id == undefined){
+        const listadoAvanzado = await PC_Avanzada.findAll()
+        resp.send(listadoAvanzado)
+    }else{
+        const listadoAvanzado = await PC_Avanzada.findAll({
+            where : {
+                Usuario_ID : usuario_id
+            }
+        })
+        resp.send(listadoAvanzado)
+    }
+})
 
 app.post("/Usuario", async (req,resp) => {
     const dataRequest = req.body
@@ -158,13 +197,26 @@ app.post("/Usuario", async (req,resp) => {
     })
 })
 
+app.put("/Usuario", async (req, resp) => {
+    const body = req.body;
+    const userId = body.Usuario_ID
+    delete body['Usuario_ID']
+    const updatedRows = await Usuario.update(body, { where: { Usuario_ID: userId } })
+    console.log(updatedRows);
+    resp.send({
+        error: ''
+    })
+})
+
 app.post("/login", async (req,resp) => {
     const correo = req.body.Correo
     const contrasena = req.body.Contrasena
+    const Usuario_ID = req.body.Usuario_ID
     const usuario = await Usuario.findOne({
         where : {
             Correo : correo,
-            Contrasena : contrasena
+            Contrasena : contrasena,
+            Usuario_ID : Usuario_ID
         }
     })
     if(usuario === null){
@@ -175,11 +227,83 @@ app.post("/login", async (req,resp) => {
     }else{
         resp.send({
             error : "",
-            token : correo
+            token : correo,
+            usuarioID : Usuario_ID
         })
     }
 })
 
+app.post("/Orden", async (req, resp) => 
+{
+    const dataRequest = req.body;
+    const usuarioID = dataRequest.Usuario_ID;
+
+    const owo = await Orden.findAll({
+        Usuario_ID : usuarioID,
+    })
+
+    if (owo.length > 0) {
+        resp.send(owo)
+        return 
+    }
+
+    try {
+        await Orden.create({
+            Orden_ID: crypto.randomUUID(),
+            Usuario_ID: usuarioID,
+            Monto: 0,
+            Direccion: "",
+            Fecha: Date.now(),
+        })
+    } catch (error) {
+        console.log(error);
+        resp.send({
+            error : `ERROR. ${error}`
+        })
+        return
+    }
+})
+
+app.post("/Carrito", async (req, resp) => {
+    const dataRequest = req.body
+    const producto_id = dataRequest.Producto_ID
+    const ordenID = dataRequest.Orden_ID
+    console.log("Producto ID: ");
+    console.log(producto_id);
+    // Validaciones
+    if (producto_id == null || producto_id == undefined) resp.send({
+        error : "ERROR. Debe enviar un producto ID"
+    })
+
+    try {
+        await Orden_producto.create({
+            Orden_producto_ID: crypto.randomUUID(),
+            Orden_ID: ordenID,
+            Producto_ID : producto_id,
+        })
+    } catch (error) {
+        console.log(error);
+        resp.send({
+            error : `ERROR. ${error}`
+        })
+        return
+    }
+
+    resp.send({
+        error : ""
+    })
+
+})
+
+
+app.get("/productoPCarmada", async (req,resp) => {
+    const productoId = req.body.Producto_ID
+    const producto = await Producto.findOne({
+        where : {
+            Producto_ID : productoId
+        }
+    })
+})
 
 
 app.listen(PUERTO, () => {

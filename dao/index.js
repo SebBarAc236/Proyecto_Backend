@@ -135,6 +135,33 @@ const Producto = sequelize.define("Producto",{
     freezeTableName : true
 })
 
+const PC_Avanzada = sequelize.define("PC_Avanzada",{
+    Avanzada_ID : {
+        primaryKey : true,
+        type : DataTypes.INTEGER,
+        allowNull : false
+    },
+    NombreProd : {
+        type : DataTypes.STRING(25),
+        allowNull : false
+    },
+    PrecioProd : {
+        type : DataTypes.INTEGER,
+        allowNull : false
+    },
+    URL : {
+        type : DataTypes.STRING(150),
+        allowNull : true
+    },
+    Usuario_ID : {
+        type : DataTypes.INTEGER,
+        allowNull : false
+    }
+},{
+    timestamps : false,
+    freezeTableName : true
+})
+
 const Reporte = sequelize.define("Reporte",{
     Reporte_ID : {
         primaryKey : true,
@@ -304,9 +331,16 @@ PC_Armado.hasMany(PC_Armado_Prod, {
     foreignKey : "PC_Armado_ID"
 })
 
+PC_Avanzada.belongsTo(Usuario, {
+    foreignKey : "Usuario_ID"
+})
+Usuario.hasMany(PC_Avanzada,{
+    foreignKey : "Usuario_ID"
+})
+
 
 
 module.exports = {
     Orden, Orden_producto, PC_Armado, PC_Armado_Prod,
-    Producto, Reporte, Resena, Usuario
+    Producto, Reporte, Resena, Usuario, PC_Avanzada
 }
