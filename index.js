@@ -262,7 +262,7 @@ app.post("/Avanzada", async (req,resp) => {
     })
 })
 
-app.post("/Avanzada", async (req,resp) => {
+app.post("/Avanzadadestroy", async (req,resp) => {
     const avanzada_id = req.body.Avanzada_ID
     await PC_Avanzada.destroy({
         Avanzada_ID : avanzada_id
