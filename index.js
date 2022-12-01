@@ -31,8 +31,14 @@ app.get("/Orden", async (req, resp) => {
     }
 })
 app.get("/Orden_producto", async (req, resp) => {
-    const listaOrdenProd = await Orden_producto.findAll()
-    resp.send(listaOrdenProd)
+    const orden = req.query.Orden_ID
+    if(orden === undefined){
+        const listadoOrdenProd = await Orden_producto.findAll()
+        resp.send(listadoOrdenProd)
+    }else{
+        const listadoOrdenProd = await Orden_producto.findAll({where : {Orden_ID : orden}})
+        resp.send(listadoOrdenProd)
+    }
 })
 app.get("/PC_Armado", async (req, resp) => {
     const listaPCArmado = await PC_Armado.findAll()
@@ -77,6 +83,23 @@ app.get("/Resena2", async (req, resp) => {
         }
     })
     resp.send(listaResena)
+})
+
+app.get("/carritoAvanzado", async (req,resp) => {
+    const ord_prod = req.query.Producto_ID
+    if(ord_prod == undefined){
+        const listaPRODUCTOS = await Orden_producto.findAll()
+        resp.send(listaPRODUCTOS)
+    }else{
+        const listaPRODUCTOS = await Orden_producto.findAll({
+            include: Producto,
+            where : {
+                Producto_ID : ord_prod
+            }
+        })
+        resp.send(listaPRODUCTOS)
+    }
+   
 })
 
 app.get("/Usuario", async (req, resp) => {
@@ -139,11 +162,12 @@ app.put("/Usuario", async (req, resp) => {
 app.post("/login", async (req,resp) => {
     const correo = req.body.Correo
     const contrasena = req.body.Contrasena
-    const usuarioID = req.body.Usuario_ID
+    const Usuario_ID = req.body.Usuario_ID
     const usuario = await Usuario.findOne({
         where : {
             Correo : correo,
-            Contrasena : contrasena
+            Contrasena : contrasena,
+            Usuario_ID : Usuario_ID
         }
     })
     if(usuario === null){
@@ -155,7 +179,7 @@ app.post("/login", async (req,resp) => {
         resp.send({
             error : "",
             token : correo,
-            usuarioID : usuarioID
+            usuarioID : Usuario_ID
         })
     }
 })
