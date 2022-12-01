@@ -2,7 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const { Orden, Orden_producto, PC_Armado, PC_Armado_Prod,
-    Producto, Reporte, Resena, Usuario } = require("./dao")
+    Producto, Reporte, Resena, Usuario, PC_Avanzada } = require("./dao")
 const PUERTO = process.env.PORT || 4444
 const app = express()
 const TOKEN = "HSDFOSHFHSDFSDHFJSHK"
@@ -117,6 +117,20 @@ app.get("/Usuario", async (req, resp) => {
     }
 })
 
+app.get("/Avanzada", async (req,resp) => {
+    const usuario_id = req.query.usuario_id
+    if(usuario_id == undefined){
+        const listadoAvanzado = await PC_Avanzada.findAll()
+        resp.send(listadoAvanzado)
+    }else{
+        const listadoAvanzado = await PC_Avanzada.findAll({
+            where : {
+                usuario_id : usuario_id
+            }
+        })
+        resp.send(listadoAvanzado)
+    }
+})
 
 app.post("/Usuario", async (req,resp) => {
     const dataRequest = req.body
