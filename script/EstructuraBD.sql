@@ -90,7 +90,9 @@ CREATE TABLE public."Producto" (
     "Nombre" character varying(25),
     "Precio" integer,
     "Descripcion" character varying(150),
-    "Categoria" character varying(30)
+    "Categoria" character varying(30),
+    "Marca" character varying(50),
+    "URL" character varying(150)
 );
 
 
